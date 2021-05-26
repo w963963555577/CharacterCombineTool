@@ -1,0 +1,17 @@
+{
+    "name": "ZD.CharacterCombineTools",
+    "references": [
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:7edb02ac084decd4db98b0b0c151f61b",
+        "GUID:48c9f6afdac61634db0e0f241c7d4d51"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

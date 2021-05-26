@@ -1,0 +1,17 @@
+{
+  "name": "com.tools.zd.character.combine",
+  "description": "\u9019\u662f\u7528\u4f86\u5408\u4f75\u89d2\u8272\u7684\u5de5\u5177",
+  "version": "1.0.0",
+  "unity": "2019.3",
+  "unityRelease": "0f6",
+  "displayName": "ZD.Character Combine Tools",
+  "dependencies": {
+    "com.unity.mathematics": "1.1.0",
+    "com.domybest.mybox": "1.6.2"
+  },
+  "author": {
+    "name": "FuncyLi",
+    "email": "w963963555577@gmail.com",
+    "url": "https://github.com/w963963555577"
+  }
+}

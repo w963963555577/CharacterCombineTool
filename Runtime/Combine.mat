@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6148766421144749466
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Combine
+  m_Shader: {fileID: 4800000, guid: 368a806707ec784428eb966c598961f7, type: 3}
+  m_ShaderKeywords: _DISCOLORATIONON_ON _DiscolorationSystem _EMISSIONON_ON _EMISSIONXBASE_ON
+    _ExpressionEnable _ExpressionFormat_FaceSheet _OutlineEnable _RECEIVESHADOW_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 0f89b8e5c42e59c41b50123588d3502f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Diffuse:
+        m_Texture: {fileID: 2800000, guid: 0f89b8e5c42e59c41b50123588d3502f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ESSMask:
+        m_Texture: {fileID: 2800000, guid: 3f37b0a8b67e5ff4db700857d9a6d76e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EffectiveMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ExpressionMap:
+        m_Texture: {fileID: 2800000, guid: e673a5e0db9973a4caf1277b6806b81f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ExpressionQMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 0f89b8e5c42e59c41b50123588d3502f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 3f37b0a8b67e5ff4db700857d9a6d76e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OutlineWidthControl:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SelfMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _diffuse:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Boolean_24DA54FB: 0
+    - Boolean_4C1BCEF3: 1
+    - Vector1_43BECC10: 0.85
+    - Vector1_9A40F818: 0
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _Cull: 2
+    - _CustomLightIntensity: 1
+    - _CustomLighting: 1
+    - _Cutoff: 0.5
+    - _DiffuseBlend: 0.2
+    - _DiscolorationColorCount: 10
+    - _DiscolorationOn: 1
+    - _DiscolorationSystem: 1
+    - _DistanceDisslove: 1
+    - _DstBlend: 0
+    - _EdgeLightIntensity: 0.3
+    - _EdgeLightWidth: 0.3
+    - _EmissionFlow: 0
+    - _EmissionOn: 1
+    - _EmissionxBase: 1
+    - _EnvironmentReflections: 1
+    - _ExpressionEnable: 1
+    - _ExpressionFormat_FaceSheet: 1
+    - _ExpressionFormat_Wink: 0
+    - _FaceLightMapCombineMode: 0
+    - _Flash: 0
+    - _FloatModel: 0
+    - _Gloss: 0.5
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _InvertLightDirection: 0
+    - _Metallic: 0
+    - _NormalScale: 1
+    - _OcclusionStrength: 1
+    - _OutlineEnable: 1
+    - _QueueOffset: 0
+    - _ReceiveShadow: 1
+    - _ReceiveShadows: 1
+    - _SampleGI: 0
+    - _SelectBrow: 3
+    - _SelectExpressionMap: 0
+    - _SelectFace: 5
+    - _SelectMouth: 3
+    - _SelfMaskDirection: 0
+    - _SelfMaskEnable: 0
+    - _SelfShadowRamp: 0.8
+    - _ShadowOffset: 0.6
+    - _ShadowRamp: 1
+    - _ShadowRefraction: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SubsurfaceRadius: 2
+    - _SubsurfaceScattering: 0.2
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    m_Colors:
+    - Color_2BDC8818: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
+    - Color_4C633A90: {r: 1, g: 1, b: 1, a: 1}
+    - Color_F27D481B: {r: 0.22442798, g: 0.6509434, b: 0, a: 1}
+    - Color_FA4891F4: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+    - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _BrowRect: {r: 0, g: 0.5, b: 0.73, a: 0.3}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CustomLightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Discoloration: {r: 1, g: 1, b: 1, a: 1}
+    - _DiscolorationColor_0: {r: 1, g: 1, b: 1, a: 1}
+    - _DiscolorationColor_1: {r: 1, g: 1, b: 1, a: 1}
+    - _DiscolorationColor_2: {r: 0.8025651, g: 1.3611504, b: 1.3412812, a: 1}
+    - _DiscolorationColor_3: {r: 0.96751195, g: 0.7775554, b: 0.5116163, a: 1}
+    - _DiscolorationColor_4: {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
+    - _DiscolorationColor_5: {r: 1.0717734, g: 0.5253791, b: 0.28160322, a: 1}
+    - _DiscolorationColor_6: {r: 1, g: 1, b: 1, a: 1}
+    - _DiscolorationColor_7: {r: 1, g: 1, b: 1, a: 1}
+    - _DiscolorationColor_8: {r: 1, g: 1, b: 1, a: 1}
+    - _DiscolorationColor_9: {r: 1, g: 1, b: 1, a: 1}
+    - _EffectiveColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 0.90669143, b: 0.4575472, a: 1}
+    - _FaceRect: {r: 0, g: 0.06, b: 0.73, a: 0.37}
+    - _MouthRect: {r: 0, g: -1.11, b: 0.4, a: 0.28}
+    - _OutlineColor: {r: 0.1, g: 0, b: 0, a: 1}
+    - _OutlineWidth_MinWidth_MaxWidth_Dist_DistBlur: {r: 0, g: 0.5, b: 0.5, a: 0}
+    - _Picker_0: {r: 0.9568628, g: 0.8352942, b: 0.8000001, a: 1}
+    - _Picker_1: {r: 0.4039216, g: 0.28235295, b: 0.454902, a: 1}
+    - _ShadowColor0: {r: 0.9176471, g: 0.7019608, b: 0.6901961, a: 1}
+    - _ShadowColor1: {r: 0.6132076, g: 0.4078409, b: 0.5743437, a: 1}
+    - _ShadowColorElse: {r: 0.6023411, g: 0.56683874, b: 0.6226415, a: 1}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _SpecularColor: {r: 0.85, g: 0.83396226, b: 0.68, a: 1}

@@ -1,0 +1,115 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CombineMaps
+///////////////////////////////////////////////////////////////////////////////
+//                  CombineMaps                                              //
+///////////////////////////////////////////////////////////////////////////////
+
+float mapCount;
+Texture2D<float4> Map_01;float4x4 Map_01_Rect_RGBA;float2 Map_01_TexelSize;
+Texture2D<float4> Map_02;float4x4 Map_02_Rect_RGBA;float2 Map_02_TexelSize;
+Texture2D<float4> Map_03;float4x4 Map_03_Rect_RGBA;float2 Map_03_TexelSize;
+Texture2D<float4> Map_04;float4x4 Map_04_Rect_RGBA;float2 Map_04_TexelSize;
+Texture2D<float4> Map_05;float4x4 Map_05_Rect_RGBA;float2 Map_05_TexelSize;
+Texture2D<float4> Map_06;float4x4 Map_06_Rect_RGBA;float2 Map_06_TexelSize;
+Texture2D<float4> Map_07;float4x4 Map_07_Rect_RGBA;float2 Map_07_TexelSize;
+Texture2D<float4> Map_08;float4x4 Map_08_Rect_RGBA;float2 Map_08_TexelSize;
+Texture2D<float4> Map_09;float4x4 Map_09_Rect_RGBA;float2 Map_09_TexelSize;
+Texture2D<float4> Map_10;float4x4 Map_10_Rect_RGBA;float2 Map_10_TexelSize;
+
+RWTexture2D<float4> Combined;float2 _Combined_TexelSize;
+
+float4 GetScaledPixel(uint3 id, Texture2D < float4 > map, float4x4 rect_RGBA, float2 texelSize, float2 uv)
+{
+    float4 result = float4(0, 0, 0, 0);
+    
+    float2 scaleRectXY = _Combined_TexelSize / texelSize;
+    
+    float4 rect;float2 ID;float2 MaskUV;float2 MaskRect;float Mask;
+
+    //Sample R Chanel
+    rect = rect_RGBA._m00_m01_m02_m03;
+    ID = (id.xy - rect.xy) / (rect.zw * scaleRectXY.xy / _Combined_TexelSize.xy);
+    MaskUV = (uv - rect.xy / _Combined_TexelSize.xy) / (rect.zw / _Combined_TexelSize.xy);
+    MaskRect = abs(((MaskUV - half2(0.5, 0.5)) * half2(2, 2)));
+    Mask = smoothstep(0.00, 0.00, 1.0 - max(MaskRect.x, MaskRect.y));
+    result.r = map[ID].r * Mask;
+    
+    //Sample G Chanel
+    rect = rect_RGBA._m10_m11_m12_m13;
+    ID = (id.xy - rect.xy) / (rect.zw * scaleRectXY.xy / _Combined_TexelSize.xy);
+    MaskUV = (uv - rect.xy / _Combined_TexelSize.xy) / (rect.zw / _Combined_TexelSize.xy);
+    MaskRect = abs(((MaskUV - half2(0.5, 0.5)) * half2(2, 2)));
+    Mask = smoothstep(0.00, 0.00, 1.0 - max(MaskRect.x, MaskRect.y));
+    result.g = map[ID].g * Mask;
+
+    //Sample B Chanel
+    rect = rect_RGBA._m20_m21_m22_m23;
+    ID = (id.xy - rect.xy) / (rect.zw * scaleRectXY.xy / _Combined_TexelSize.xy);
+    MaskUV = (uv - rect.xy / _Combined_TexelSize.xy) / (rect.zw / _Combined_TexelSize.xy);
+    MaskRect = abs(((MaskUV - half2(0.5, 0.5)) * half2(2, 2)));
+    Mask = smoothstep(0.00, 0.00, 1.0 - max(MaskRect.x, MaskRect.y));
+    result.b = map[ID].b * Mask;
+
+    //Sample A Chanel
+    rect = rect_RGBA._m30_m31_m32_m33;
+    ID = (id.xy - rect.xy) / (rect.zw * scaleRectXY.xy / _Combined_TexelSize.xy);
+    MaskUV = (uv - rect.xy / _Combined_TexelSize.xy) / (rect.zw / _Combined_TexelSize.xy);
+    MaskRect = abs(((MaskUV - half2(0.5, 0.5)) * half2(2, 2)));
+    Mask = smoothstep(0.00, 0.00, 1.0 - max(MaskRect.x, MaskRect.y));
+    result.a = map[ID].a * Mask ;
+    
+    return result;
+}
+
+[numthreads(32, 32, 1)]
+void CombineMaps(uint3 id: SV_DispatchThreadID)
+{
+    float2 uv = id.xy / _Combined_TexelSize.xy;
+    float4 result = float4(0, 0, 0, 0);
+    
+    if (mapCount >= 01.)result += GetScaledPixel(id, Map_01, Map_01_Rect_RGBA, Map_01_TexelSize, uv);
+    if(mapCount >= 02.)result += GetScaledPixel(id, Map_02, Map_02_Rect_RGBA, Map_02_TexelSize, uv);
+    if(mapCount >= 03.)result += GetScaledPixel(id, Map_03, Map_03_Rect_RGBA, Map_03_TexelSize, uv);
+    if(mapCount >= 04.)result += GetScaledPixel(id, Map_04, Map_04_Rect_RGBA, Map_04_TexelSize, uv);
+    if(mapCount >= 05.)result += GetScaledPixel(id, Map_05, Map_05_Rect_RGBA, Map_05_TexelSize, uv);
+    if(mapCount >= 06.)result += GetScaledPixel(id, Map_06, Map_06_Rect_RGBA, Map_06_TexelSize, uv);
+    if(mapCount >= 07.)result += GetScaledPixel(id, Map_07, Map_07_Rect_RGBA, Map_07_TexelSize, uv);
+    if(mapCount >= 08.)result += GetScaledPixel(id, Map_08, Map_08_Rect_RGBA, Map_08_TexelSize, uv);
+    if(mapCount >= 09.)result += GetScaledPixel(id, Map_09, Map_09_Rect_RGBA, Map_09_TexelSize, uv);
+    if(mapCount >= 10.)result += GetScaledPixel(id, Map_10, Map_10_Rect_RGBA, Map_10_TexelSize, uv);
+    
+    Combined[id.xy] = result;
+}
+
+
+#pragma kernel CombineMesh
+///////////////////////////////////////////////////////////////////////////////
+//                  CombineMesh                                              //
+///////////////////////////////////////////////////////////////////////////////
+
+int hairUVLength;
+int faceUVLength;
+int bodyUVLength;
+
+RWStructuredBuffer<float2> hairUV;
+RWStructuredBuffer<float2> faceUV;
+RWStructuredBuffer<float2> bodyUV;
+
+[numthreads(64, 1, 1)]
+void CombineMesh(uint3 id: SV_DispatchThreadID)
+{
+    if (id.x < hairUVLength)
+    {
+        hairUV[id.x] = (hairUV[id.x] + float2(0.0, 0.0)) * float2(384.0 / 1024.0, 768 / 1024.0);
+    }
+
+    if(id.x < faceUVLength)
+    {
+        faceUV[id.x] = faceUV[id.x] * float2(384.0 / 1024.0, 256 / 1024.0) + float2(0.0, 768.0 / 1024.0);
+    }
+
+    if(id.x < bodyUVLength)
+    {
+        bodyUV[id.x] = bodyUV[id.x] * float2(640.0 / 1024.0, 1.0) + float2(384.0 / 1024.0, 0.0);
+    }
+}
