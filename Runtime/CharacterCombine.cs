@@ -95,6 +95,27 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
                 result.material.SetTexture(rt.name, map);                
             });
         }
+
+        var matPath = Path.Combine(path, result.material.name + ".mat").Replace(Application.dataPath, "Assets");
+        var meshPath = Path.Combine(path, result.sharedMesh.name + ".asset").Replace(Application.dataPath, "Assets");
+        AssetDatabase.DeleteAsset(matPath);
+        AssetDatabase.DeleteAsset(meshPath);
+        AssetDatabase.CreateAsset(result.material, matPath);
+        AssetDatabase.CreateAsset(result.sharedMesh, meshPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
+        var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
+        if (result.renderMode == CombineGroup.RenderMode.SkinnedMeshRenderer)
+        {
+            result.skinnedMeshRenderer.sharedMaterial = mat;
+            result.skinnedMeshRenderer.sharedMesh = mesh;
+        }
+        else
+        {
+            result.meshRenderer.sharedMaterial = mat;
+            result.filter.sharedMesh = mesh;
+        }
     }
 
     private void OnEnable()
@@ -460,7 +481,7 @@ public class CharacterCombine_Editor:Editor
 
             //Selection.activeGameObject = data.combineResult.gameObject;
         }
-        if (GUILayout.Button("Save Maps"))
+        if (GUILayout.Button("Save to Project"))
         {
             data.SaveMapsAndAssignToMaterial();
         }
