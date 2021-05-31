@@ -31,5 +31,5 @@ public interface ITextureCombiner
     /// <param name="sourceTextures">來源貼圖資訊</param>
     /// <param name="combinedTexture">輸出貼圖</param>
     /// <returns>合併結果</returns>
-    bool Combine(CombineTextureInfo[] sourceTextures, ref RenderTexture combinedTexture);
+    bool Combine(CombineTextureInfo[] sourceTextures,int textureSize, ref RenderTexture combinedTexture);
 }

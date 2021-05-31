@@ -319,7 +319,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
         return true;
     }
     #endregion CombineMesh
-
+    
     #region CombineMaps
     public void CombineMaps()
     {
@@ -331,35 +331,39 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
         List<CombineTextureInfo> combineTextureInfoList = new List<CombineTextureInfo>();
 
         //Diffuse
-        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_diffuse"), new Rect(0, 0, 384,768)));
-        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_diffuse"), new Rect(0, 768, 384, 256)));
-        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_diffuse"),  new Rect(384, 0, 640, 1024)));
-        Combine(combineTextureInfoList.ToArray(), ref diffuseResult);
+        int textureSize = 1024;
+        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_diffuse"), new Rect(0, 0, textureSize * 0.375f, textureSize * 0.75f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_diffuse"), new Rect(0, textureSize * 0.75f, textureSize * 0.375f, textureSize * 0.25f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_diffuse"),  new Rect(textureSize * 0.375f, 0, textureSize * 0.625f, textureSize)));
+        Combine(combineTextureInfoList.ToArray(), textureSize, ref diffuseResult);
         diffuseResult.name = "_diffuse";
         combineTextureInfoList.Clear();
 
         //ESSGMask
-        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_mask"),  new Rect(0, 0, 384, 768)));
-        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_mask"),  new Rect(0, 768, 384, 256)));
-        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_mask"), new Rect(384, 0, 640, 1024)));
-        Combine(combineTextureInfoList.ToArray(), ref essgMaskResult);
+        textureSize = 512;
+        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_mask"),  new Rect(0, 0, textureSize * 0.375f, textureSize * 0.75f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_mask"), new Rect(0, textureSize * 0.75f, textureSize * 0.375f, textureSize * 0.25f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_mask"), new Rect(textureSize * 0.375f, 0, textureSize * 0.625f, textureSize)));
+        Combine(combineTextureInfoList.ToArray(), textureSize, ref essgMaskResult);
         essgMaskResult.name = "_mask";
         combineTextureInfoList.Clear();
 
         //SelfMask
-        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_SelfMask"), new Rect(0, 0, 0, 0),new Rect(0, 0, 384, 768)));
-        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_SelfMask"), new Rect(0, 0, 1024, 1024), new Rect(0, 768, 384, 256)));
-        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_SelfMask"), new Rect(0, 0, 0, 0), new Rect(384, 0, 640, 1024)));
-        Combine(combineTextureInfoList.ToArray(), ref selfMaskResult);
+        textureSize = 512;
+        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_SelfMask"), new Rect(0, 0, 0, 0),new Rect(0, 0, textureSize * 0.375f, textureSize * 0.75f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_SelfMask"), new Rect(0, 0, textureSize, textureSize), new Rect(0, textureSize * 0.75f, textureSize * 0.375f, textureSize * 0.25f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_SelfMask"), new Rect(0, 0, 0, 0), new Rect(textureSize * 0.375f, 0, textureSize * 0.625f, textureSize)));
+        Combine(combineTextureInfoList.ToArray(), textureSize, ref selfMaskResult);
         selfMaskResult.name = "_SelfMask";
         combineTextureInfoList.Clear();
 
 
         //SelfMask
-        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_OutlineWidthControl"), new Rect(0, 0, 384, 768)));
-        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_OutlineWidthControl"), new Rect(0, 768, 384, 256)));
-        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_OutlineWidthControl"), new Rect(384, 0, 640, 1024)));
-        Combine(combineTextureInfoList.ToArray(), ref outlineMaskResult);
+        textureSize = 128;
+        combineTextureInfoList.Add(new CombineTextureInfo(hair.GetTexture2D("_OutlineWidthControl"), new Rect(0, 0, textureSize * 0.375f, textureSize * 0.75f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(face.GetTexture2D("_OutlineWidthControl"), new Rect(0, textureSize * 0.75f, textureSize * 0.375f, textureSize * 0.25f)));
+        combineTextureInfoList.Add(new CombineTextureInfo(body.GetTexture2D("_OutlineWidthControl"), new Rect(textureSize * 0.375f, 0, textureSize * 0.625f, textureSize)));
+        Combine(combineTextureInfoList.ToArray(), textureSize, ref outlineMaskResult);
         outlineMaskResult.name = "_OutlineWidthControl";
         combineTextureInfoList.Clear();
 
@@ -367,9 +371,9 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
     }
 
 
-    public bool Combine(CombineTextureInfo[] sourceTextures, ref RenderTexture combinedTexture)
+    public bool Combine(CombineTextureInfo[] sourceTextures, int textureSize, ref RenderTexture combinedTexture)
     {
-        combinedTexture = new RenderTexture(1024, 1024, 0, RenderTextureFormat.ARGB32);
+        combinedTexture = new RenderTexture(textureSize, textureSize, 0, RenderTextureFormat.ARGB32);
         combinedTexture.enableRandomWrite = true;
         combinedTexture.wrapMode = TextureWrapMode.Repeat;
         combinedTexture.Create();
