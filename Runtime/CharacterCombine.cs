@@ -81,42 +81,6 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
     [HideInInspector] [SerializeField] RenderTexture selfMaskResult;
     [HideInInspector] [SerializeField] RenderTexture outlineMaskResult;
 
-    public void SaveMapsAndAssignToMaterial()
-    {
-        var rts = new RenderTexture[] { diffuseResult, essgMaskResult, selfMaskResult, outlineMaskResult };
-        string path = EditorUtility.SaveFolderPanel("Save to png", Application.dataPath, "");
-        foreach (var rt in rts)
-        {
-            string savePath = Path.Combine(path, rt.name+ ".tga");
-             
-            SaveRenderTextureToTGA(savePath, rt, importer =>
-            {                             
-                var map = AssetDatabase.LoadAssetAtPath<Texture2D>(importer.assetPath);             
-                result.material.SetTexture(rt.name, map);                
-            });
-        }
-
-        var matPath = Path.Combine(path, result.material.name + ".mat").Replace(Application.dataPath, "Assets");
-        var meshPath = Path.Combine(path, result.sharedMesh.name + ".asset").Replace(Application.dataPath, "Assets");
-        AssetDatabase.DeleteAsset(matPath);
-        AssetDatabase.DeleteAsset(meshPath);
-        AssetDatabase.CreateAsset(result.material, matPath);
-        AssetDatabase.CreateAsset(result.sharedMesh, meshPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-        var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
-        var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
-        if (result.renderMode == CombineGroup.RenderMode.SkinnedMeshRenderer)
-        {
-            result.skinnedMeshRenderer.sharedMaterial = mat;
-            result.skinnedMeshRenderer.sharedMesh = mesh;
-        }
-        else
-        {
-            result.meshRenderer.sharedMaterial = mat;
-            result.filter.sharedMesh = mesh;
-        }
-    }
 
     private void OnEnable()
     {    
@@ -131,6 +95,13 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
             result.Add(new CombineGroup(ren));
         }
         return result;
+    }
+
+    public void DoCombine()
+    {
+        CombineMesh();
+        CombineMaps();
+        CombineMaterials();
     }
 
     public void UpdateGroups()
@@ -162,6 +133,44 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
             DestroyImmediate(o);
         }
     }
+#if UNITY_EDITOR
+
+    public void SaveMapsAndAssignToMaterial()
+    {
+        var rts = new RenderTexture[] { diffuseResult, essgMaskResult, selfMaskResult, outlineMaskResult };
+        string path = EditorUtility.SaveFolderPanel("Save to png", Application.dataPath, "");
+        foreach (var rt in rts)
+        {
+            string savePath = Path.Combine(path, rt.name + ".tga");
+
+            SaveRenderTextureToTGA(savePath, rt, importer =>
+            {
+                var map = AssetDatabase.LoadAssetAtPath<Texture2D>(importer.assetPath);
+                result.material.SetTexture(rt.name, map);
+            });
+        }
+
+        var matPath = Path.Combine(path, result.material.name + ".mat").Replace(Application.dataPath, "Assets");
+        var meshPath = Path.Combine(path, result.sharedMesh.name + ".asset").Replace(Application.dataPath, "Assets");
+        AssetDatabase.DeleteAsset(matPath);
+        AssetDatabase.DeleteAsset(meshPath);
+        AssetDatabase.CreateAsset(result.material, matPath);
+        AssetDatabase.CreateAsset(result.sharedMesh, meshPath);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
+        var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
+        if (result.renderMode == CombineGroup.RenderMode.SkinnedMeshRenderer)
+        {
+            result.skinnedMeshRenderer.sharedMaterial = mat;
+            result.skinnedMeshRenderer.sharedMesh = mesh;
+        }
+        else
+        {
+            result.meshRenderer.sharedMaterial = mat;
+            result.filter.sharedMesh = mesh;
+        }
+    }
 
     private void SaveRenderTextureToTGA(string path, RenderTexture renderTexture, System.Action<TextureImporter> importAction = null)
     {        
@@ -186,7 +195,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
             
         }
     }
-
+#endif
 
     #region CombineMesh 
     public bool CombineMesh()
@@ -431,7 +440,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
                 result.material = result.meshRenderer.sharedMaterial;
             }
         }
-
+        result.material.SetFloat("_SelfMaskDirection", 1.0f);
         result.material.name = "Combine_Material";
 
         result.material.SetTexture("_diffuse", diffuseResult);
@@ -479,9 +488,7 @@ public class CharacterCombine_Editor:Editor
                 Debug.Log("You must be assign renderer.");
                 return;
             }
-            data.CombineMesh();            
-            data.CombineMaps();
-            data.CombineMaterials();
+            data.DoCombine();
 
             //Selection.activeGameObject = data.combineResult.gameObject;
         }
