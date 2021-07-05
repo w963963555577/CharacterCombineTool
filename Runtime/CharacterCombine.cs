@@ -26,6 +26,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
 
         [ConditionalField(nameof(renderMode), false, RenderMode.SkinnedMeshRenderer)] public SkinnedMeshRenderer skinnedMeshRenderer;
         [ReadOnly] public Material material;
+        [ReadOnly] public Transform[] bones;
 
         public CombineGroup(Renderer ren)
         {            
@@ -34,6 +35,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
                 var r = ren as SkinnedMeshRenderer;
                 this.renderMode = RenderMode.SkinnedMeshRenderer;
                 skinnedMeshRenderer = r;
+                bones = r.bones;
             }
             if (ren.GetType().Name == typeof(MeshRenderer).Name)
             {
@@ -43,6 +45,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
                 meshRenderer = r;
             }
             material = ren.sharedMaterial;
+            
         }
         
         public bool IsActive { get { return ((filter != null && meshRenderer != null) || skinnedMeshRenderer != null) && material != null; } }
@@ -110,7 +113,7 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
 
         hair = combineGroups.Find(x => x.sharedMesh.name.ToLower().Contains("hair"));
         face = combineGroups.Find(x => x.sharedMesh.name.ToLower().Contains("face"));
-        body = combineGroups.Find(x => x.sharedMesh.name.ToLower().Contains("body"));
+        body = combineGroups.Find(x => x.sharedMesh.name.ToLower().Contains("body"));   
     }
     private void OnDisable()
     {
@@ -118,8 +121,21 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
     }
 
     private void Update()
-    {
-        
+    {        
+        if (result.skinnedMeshRenderer != null)
+        {
+            result.bones = result.skinnedMeshRenderer.bones;
+            var boneRoot = result.skinnedMeshRenderer.transform.parent.Find("root");
+            
+            if (!result.bones.ToList().Contains(boneRoot))
+            {
+                var l = result.bones.ToList();
+                l.Add(boneRoot);
+                result.bones = l.ToArray();
+            }
+            
+            result.skinnedMeshRenderer.bones = result.bones;
+        }        
     }
 
     void SafeDestory(UnityEngine.Object o)
@@ -282,6 +298,13 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
             for (int s = 0; s < smRenderers.Length; s++)
             {
                 SkinnedMeshRenderer smr = smRenderers[s];
+                List<Transform> replaceBones = new List<Transform>();
+                foreach(var b in smr.bones)
+                {
+                    var targetBone = result.bones.ToList().Find(bo => bo.name == b.name);
+                    replaceBones.Add(targetBone);
+                }
+                smr.bones = replaceBones.ToArray();
 
                 BoneWeight[] meshBoneweight = smr.sharedMesh.boneWeights;
 
@@ -313,7 +336,8 @@ public class CharacterCombine : MonoBehaviour, ITextureCombiner
                 }
                 smr.enabled = false;
             }
-            result.skinnedMeshRenderer.bones = bones.ToArray();
+            result.bones = bones.ToArray();
+            result.skinnedMeshRenderer.bones = result.bones;
             result.sharedMesh.boneWeights = boneWeights.ToArray();
             result.sharedMesh.bindposes = bindPoses.ToArray();
             result.sharedMesh.RecalculateBounds();
